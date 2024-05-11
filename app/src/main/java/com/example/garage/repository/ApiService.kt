@@ -20,9 +20,7 @@ import retrofit2.http.PUT
 import retrofit2.http.Query
 
 
-
-
-private val ipV4Address="192.168.113.117"
+private val ipV4Address = "192.168.113.117"
 private val retrofit = Retrofit.Builder().baseUrl("http://${ipV4Address}:8082/roadRescueBackend/")
     .addConverterFactory(GsonConverterFactory.create())
     .build()
@@ -33,11 +31,25 @@ interface ApiService {
 
     @Headers("Content-Type: application/json")
     @GET("login")
-    fun login(@Query("searchId") searchId: String,@Query("option") option:String): Call<ResponseBody>
+    fun login(
+        @Query("searchId") searchId: String,
+        @Query("option") option: String,
+    ): Call<ResponseBody>
+
     @PUT("garage")
-    fun changePhoneNumber(@Query("garageId")garageId:String,@Query("newContactNumber")newPhoneNumber:String,@Query("option")option:String):Call<ResponseBody>
+    fun changePhoneNumber(
+        @Query("garageId") garageId: String,
+        @Query("newContactNumber") newPhoneNumber: String,
+        @Query("option") option: String,
+    ): Call<ResponseBody>
+
     @POST("login")
-    fun locationUpdate(@Query("latitude")latitude:Double,@Query("longitude")longitude:Double,@Query("option")option:String,@Query("id")id:String): Call<ResponseBody>
+    fun locationUpdate(
+        @Query("latitude") latitude: Double,
+        @Query("longitude") longitude: Double,
+        @Query("option") option: String,
+        @Query("id") id: String,
+    ): Call<ResponseBody>
 
     @Headers("Content-Type: application/json")
     @POST("register")
@@ -45,21 +57,26 @@ interface ApiService {
 
     @Headers("Content-Type: application/json")
     @GET("garage")
-    fun getGarageData(@Query("searchId") searchId: String,@Query("option") option:String): Call<ResponseBody>
+    fun getGarageData(
+        @Query("searchId") searchId: String,
+        @Query("option") option: String,
+    ): Call<ResponseBody>
 
     @Headers("Content-Type: application/json")
     @POST("garage")
     fun postSupportTicket(@Body issueTicket: NewSupportTicket): Call<ResponseBody>
 
-    
 
     @Headers("Content-Type: application/json")
     @PUT("garage")
-    fun updateGarage(@Body garage: UpdateGarage):Call<ResponseBody>
+    fun updateGarage(@Body garage: UpdateGarage): Call<ResponseBody>
 
     @Headers("Content-Type: application/json")
     @GET("technician")
-    fun getTechnician(@Query("searchId") searchId: String,@Query("option") option:String): Call<ResponseBody>
+    fun getTechnician(
+        @Query("searchId") searchId: String,
+        @Query("option") option: String,
+    ): Call<ResponseBody>
 
     @Headers("Content-Type: application/json")
     @POST("technician")
@@ -67,36 +84,52 @@ interface ApiService {
 
     @Headers("Content-Type: application/json")
     @DELETE("technician")
-    fun deleteTechnician(@Query("delId") delId: String):Call<ResponseBody>
-    @Headers("Content-Type: application/json")
-    @PUT("technician")
-    fun updateTechnician(@Query("option") option: String, @Body technician: UpdateTechnicianByGarage):Call<ResponseBody>
+    fun deleteTechnician(@Query("delId") delId: String): Call<ResponseBody>
 
     @Headers("Content-Type: application/json")
     @PUT("technician")
-    fun updateTechnicianByTechnicianApp(@Query("option")option:String,@Body technician: UpdateTechnicianByTechnician):Call<ResponseBody>
+    fun updateTechnician(
+        @Query("option") option: String,
+        @Body technician: UpdateTechnicianByGarage,
+    ): Call<ResponseBody>
+
+    @Headers("Content-Type: application/json")
+    @PUT("technician")
+    fun updateTechnicianByTechnicianApp(
+        @Query("option") option: String,
+        @Body technician: UpdateTechnicianByTechnician,
+    ): Call<ResponseBody>
 
 
     @Headers("Content-Type: application/json")
     @GET("service")
-    fun getServiceRequests(@Query("searchId") searchId: String,@Query("option") option:String): Call<ResponseBody>
+    fun getServiceRequests(
+        @Query("searchId") searchId: String,
+        @Query("option") option: String,
+    ): Call<ResponseBody>
 
     @PUT("service")
     fun updateServiceRequest(
-        @Query("option") option:String,
-        @Query("serviceId")serviceId:Int,
-        @Query("serviceProviderId")serviceProviderId:String,
-        @Query("technicianId")technicianId:String
-        ): Call<ResponseBody>
+        @Query("option") option: String,
+        @Query("serviceId") serviceId: Int,
+        @Query("serviceProviderId") serviceProviderId: String,
+        @Query("technicianId") technicianId: String,
+    ): Call<ResponseBody>
 
     @POST("service")
     fun completeJob(
-        @Query("option") option:String,
-        @Query("serviceId")serviceId:String,
-        @Query("amount")amount:String
+        @Query("option") option: String,
+        @Query("serviceId") serviceId: String,
+        @Query("amount") amount: String,
     ): Call<ResponseBody>
+
     @POST("bankDetail")
-    fun addBankDetails(@Body cardDetails: AddBankDetails):Call<ResponseBody>
+    fun addBankDetails(@Body cardDetails: AddBankDetails): Call<ResponseBody>
+
     @PUT("statusServlet")
-    fun changeStatus(@Query("option")option:String,@Query("status")status:String,@Query("id")id:String):Call<ResponseBody>
+    fun changeStatus(
+        @Query("option") option: String,
+        @Query("status") status: String,
+        @Query("id") id: String,
+    ): Call<ResponseBody>
 }

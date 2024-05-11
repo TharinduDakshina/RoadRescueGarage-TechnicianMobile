@@ -1,4 +1,4 @@
-package com.example.garage.viewModels
+package com.example.garage.models
 
 import java.sql.Date
 import java.sql.Time
