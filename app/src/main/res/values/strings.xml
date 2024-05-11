@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">RoadRescueCustomer</string>
+    <string name="log_in_to_road_rescue">Log in to Road-Rescue</string>
+    <string name="register_in_to_road_rescue">Register in to Road-Rescue</string>
+</resources>
