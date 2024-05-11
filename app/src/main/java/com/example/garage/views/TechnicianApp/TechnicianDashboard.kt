@@ -53,6 +53,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.garage.models.ResponseObject
 import com.example.garage.models.TechnicianDashboard
+import com.example.garage.repository.AppPreferences
 import com.example.garage.repository.Screen
 import com.example.garage.repository.TechnicianCommonDetails
 import com.example.garage.repository.TechnicianDashboardServiceCommonDetails
@@ -80,7 +81,7 @@ fun TechnicianDashboard(
     technicianShearedViewModel: TechnicianShearedViewModel,
     techShearedViewModel:TechShearedViewModel
 ){
-    val techId=loginShearedViewModel.loginId
+    var techId:String?=null
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     var showTechnicianJobs by remember { mutableStateOf(false) }
@@ -89,11 +90,19 @@ fun TechnicianDashboard(
     val viewModel:MainViewModel= viewModel()
     var responseString by remember { mutableStateOf("") }
     var technicianData by remember { mutableStateOf("") }
-    val context= LocalContext.current
+    val context:Context= LocalContext.current
 
     LaunchedEffect(Unit){
+        Log.d("1 technician appPrefereance check", AppPreferences(context).getStringPreference("technicianId",""))
+        techId = if(loginShearedViewModel.loginId != null){
+            Log.d("2 technician appPrefereance check", AppPreferences(context).getStringPreference("technicianId",""))
+            loginShearedViewModel.loginId
+        }else{
+            Log.d("3 technician appPrefereance check", AppPreferences(context).getStringPreference("technicianId",""))
+            AppPreferences(context).getStringPreference("technicianId","")
+        }
 
-        val response =loginShearedViewModel.loginId?.let { loadTechnicianData(viewModel, it) }
+        val response =techId?.let { loadTechnicianData(viewModel, it) }
 
         if (response != null) {
             if (response.status == 200) {
@@ -149,7 +158,7 @@ fun TechnicianDashboard(
 
 
         if (techId != null) {
-            val response =loadServices(viewModel,techId)
+            val response =loadServices(viewModel, techId!!)
             if (response != null) {
                 if (response.status == 200) {
                     responseString = response.data!!.toString()
@@ -314,7 +323,7 @@ fun TechnicianDashboard(
 
                                 if (techId != null) {
                                     ServiceRequest(
-                                        techId,
+                                        techId!!,
                                         technicianService,
                                         navController,
                                         Modifier.align(Alignment.CenterHorizontally),
@@ -501,7 +510,9 @@ fun ServiceRequest(
 
                 CommonButton(
                     btnName = "Show Details",
-                    modifier = Modifier.align(Alignment.CenterVertically).width(170.dp),
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically)
+                        .width(170.dp),
                     onClickButton = {
                         navController.navigate(route = Screen.TechnicianCompleteJob.route)
                     }

@@ -50,6 +50,7 @@ import androidx.navigation.NavHostController
 import com.example.garage.R
 import com.example.garage.models.LocationUtils
 import com.example.garage.models.ResponseObject
+import com.example.garage.repository.AppPreferences
 import com.example.garage.repository.Screen
 import com.example.garage.viewModels.LocationViewModel
 import com.example.garage.viewModels.LoginShearedViewModel
@@ -281,72 +282,17 @@ fun LoginBox(
                                 if (part[0]=="sp"){
                                     loginShearedViewModel.specificLoginId(part[1])
                                     processingBarStatus.value=false
-                                    navController.navigate(Screen.GarageDashboard.route)
 
-                                    /*val response=updateLocation(
-                                        viewModel,
-                                        locationViewModel.location.value!!.latitude,
-                                        locationViewModel.location.value!!.longitude,
-                                        "sp",
-                                        part[1]
+                                    AppPreferences(context).setStringPreference(
+                                        "userType",
+                                        "sp"
                                     )
 
-                                    if (response != null) {
-                                        if (response.status == 200) {
-                                            loginShearedViewModel.specificLoginId(part[1])
-                                            processingBarStatus.value=false
-                                            navController.navigate(Screen.GarageDashboard.route)
-                                        } else if(response.status == 204){
-                                            processingBarStatus.value=false
-                                            Toast.makeText(
-                                                context,
-                                                response.message,
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                        } else if (response.status == 400) {
-                                            processingBarStatus.value=false
-                                            Toast.makeText(
-                                                context,
-                                                response.message,
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                        } else if (response.status == 404) {
-                                            processingBarStatus.value=false
-                                            Toast.makeText(
-                                                context,
-                                                response.message,
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                        } else if (response.status == 500) {
-                                            processingBarStatus.value=false
-                                            Toast.makeText(
-                                                context,
-                                                response.message,
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                        } else if (response.status == 508) {
-                                            processingBarStatus.value=false
-                                            Toast.makeText(
-                                                context,
-                                                response.message,
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                        } else {
-                                            processingBarStatus.value=false
-                                            Toast.makeText(
-                                                context,
-                                                response.message,
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                        }
-                                    } else {
-                                        processingBarStatus.value=false
-                                        Toast.makeText(
-                                            context,
-                                            "Cannot call the sever",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }*/
+                                    AppPreferences(context).setStringPreference(
+                                        "serviceProviderId",
+                                        part[1]
+                                    )
+                                    navController.navigate(Screen.GarageDashboard.route)
 
                                 }else if (part[0]=="mp"){
 
@@ -373,6 +319,17 @@ fun LoginBox(
                                         if (response.status == 200) {
                                             loginShearedViewModel.specificLoginId(part[1])
                                             processingBarStatus.value=false
+
+                                            AppPreferences(context).setStringPreference(
+                                                "userType",
+                                                "tech"
+                                            )
+
+                                            AppPreferences(context).setStringPreference(
+                                                "technicianId",
+                                                part[1]
+                                            )
+
                                             navController.navigate(Screen.TechnicianDashboard.route)
 
                                         } else if(response.status == 204){

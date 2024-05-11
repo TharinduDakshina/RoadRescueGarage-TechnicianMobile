@@ -66,22 +66,32 @@ fun SetupNavGraph(
     val technicianShearedViewModel:TechnicianShearedViewModel= viewModel()
     val locationUtils=LocationUtils(context)
 
-
+//    startDestination = Screen.Login.route,
 
     NavHost(
         navController = navController,
-        startDestination = Screen.Login.route,
+        startDestination = if (AppPreferences(context).getStringPreference(
+                "userType",
+                ""
+            ) == "sp"
+        ) {
+            Screen.GarageDashboard.route
+        } else if (AppPreferences(context).getStringPreference("userType", "") == "tech") {
+            Screen.TechnicianDashboard.route
+        } else {
+            Screen.Login.route
+        },
         enterTransition = {
-            fadeIn(animationSpec = tween(700))+slideIntoContainer(
+            fadeIn(animationSpec = tween(700)) + slideIntoContainer(
                 AnimatedContentTransitionScope.SlideDirection.Left, tween(700)
             )
         },
         exitTransition = {
-            fadeOut(animationSpec = tween(700))+slideOutOfContainer(
+            fadeOut(animationSpec = tween(700)) + slideOutOfContainer(
                 AnimatedContentTransitionScope.SlideDirection.Left, tween(700)
             )
         }
-    ){
+    ) {
 
         composable(
             route=Screen.Login.route

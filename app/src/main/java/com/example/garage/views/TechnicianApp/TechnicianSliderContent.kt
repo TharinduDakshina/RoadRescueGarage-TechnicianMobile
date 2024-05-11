@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.garage.models.ResponseObject
+import com.example.garage.repository.AppPreferences
 import com.example.garage.repository.Screen
 import com.example.garage.viewModels.LoginShearedViewModel
 import com.example.garage.viewModels.MainViewModel
@@ -118,6 +119,7 @@ fun TechnicianSliderContent(
 
         SidebarButton(buttonName="Log Out",verticalPadding=16, onClick = {
             navController.navigate(Screen.Login.route)
+            AppPreferences(context).clearAllPreference()
         })
     }
 

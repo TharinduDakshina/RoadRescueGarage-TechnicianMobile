@@ -59,6 +59,7 @@ import androidx.navigation.NavController
 import com.example.garage.models.Garage
 import com.example.garage.models.ResponseObject
 import com.example.garage.models.ServicesRequestModel
+import com.example.garage.repository.AppPreferences
 import com.example.garage.repository.GarageCommonDetails
 import com.example.garage.repository.Screen
 import com.example.garage.viewModels.GarageSharedViewModel
@@ -90,7 +91,7 @@ fun GarageDashboard(
     locationViewModel: LocationViewModel,
 ) {
 
-    var garageId = loginShearedViewModel.loginId
+    var garageId:String? = null
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val viewModel = viewModel<MainViewModel>()
@@ -109,7 +110,15 @@ fun GarageDashboard(
     val context: Context = LocalContext.current
     var preServicesLength: Int = 0
 
+
     LaunchedEffect(Unit) {
+
+        garageId = if (loginShearedViewModel.loginId != null) {
+            loginShearedViewModel.loginId
+        }else{
+            AppPreferences(context).getStringPreference("serviceProviderId","")
+        }
+
         val response = garageId?.let { loadGarageDetails(viewModel, searchId = it) }
         if (response != null) {
 
